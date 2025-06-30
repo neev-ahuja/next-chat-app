@@ -73,7 +73,7 @@ const DashBoard = () => {
       setNewMessage('');
       const userEmail = user.user?.emailAddresses?.[0]?.emailAddress;
       const chatEmail = chats[selectedChat].email;
-      const response = await axios.post('/api/send-message', { email1: userEmail, email2: chatEmail, content: newMessage });
+      const response = await axios.post('https://next-chat-app-red.vercel.app/api/send-message', { email1: userEmail, email2: chatEmail, content: newMessage });
       if (response.data) {
         setReloadMsg(!realoadMsg);
         socket.current.emit('update', chatEmail);
@@ -87,7 +87,7 @@ const DashBoard = () => {
   const handleAddContact = async () => {
     const userEmail = user.user?.emailAddresses?.[0]?.emailAddress;
     if (newContactName.trim()) {
-      const response = await axios.post(`/api/add-contact`, { email: userEmail, contactMail: newContactEmail });
+      const response = await axios.post(`https://next-chat-app-red.vercel.app/api/add-contact`, { email: userEmail, contactMail: newContactEmail });
       if (response.data.message && response.data.message === 'sucess') {
         setReloadContacts(prev => !prev);
         setNewContactName('');
@@ -115,7 +115,7 @@ const DashBoard = () => {
       if(!chats[selectedChat]) return;
       const chatEmail = chats[selectedChat].email;
       if (!chatEmail) return;
-      const response = await axios.post("/api/get-messages", { email1: userEmail, email2: chatEmail });
+      const response = await axios.post("https://next-chat-app-red.vercel.app/api/get-messages", { email1: userEmail, email2: chatEmail });
       setMessages(response.data.response.messages);
     })();
   }, [selectedChat, chats, user.user, realoadMsg]);
@@ -125,7 +125,7 @@ const DashBoard = () => {
       const userEmail = user.user?.emailAddresses?.[0]?.emailAddress;
 
       (async () => {
-        const response = await axios.post(`/api/get-user` , {email : userEmail , name : user.user?.fullName , avatar : user.user?.imageUrl});
+        const response = await axios.post(`https://next-chat-app-red.vercel.app/api/get-user` , {email : userEmail , name : user.user?.fullName , avatar : user.user?.imageUrl});
         setChats(response.data.contacts);
       })();
 
